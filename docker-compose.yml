@@ -1,0 +1,8 @@
+services:
+  wol-webhook:
+    build: .
+    container_name: wol-webhook
+    restart: unless-stopped
+    # Host networking is required so the broadcast packet reaches the LAN
+    network_mode: host
+    env_file: .env

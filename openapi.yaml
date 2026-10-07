@@ -1,0 +1,49 @@
+openapi: 3.1.0
+info:
+  title: Wake-on-LAN
+  description: Wakes devices on the home network via magic packet.
+  version: "1.0.0"
+servers:
+  - url: https://wol.YOUR-DOMAIN.com
+paths:
+  /devices:
+    get:
+      operationId: listDevices
+      summary: List devices that can be woken
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  devices:
+                    type: array
+                    items:
+                      type: string
+  /wake/{device}:
+    post:
+      operationId: wakeDevice
+      summary: Send a Wake-on-LAN packet to the device
+      parameters:
+        - name: device
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Device name, e.g. "pc"
+      responses:
+        "200":
+          description: Magic packet sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  device:
+                    type: string
+        "404":
+          description: Unknown device
